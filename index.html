@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="沐城到府 H5 版，提供到府按摩、芳療舒壓與預約下單服務。">
+  <meta name="theme-color" content="#8e4928">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>沐城到府 | 預約按摩服務</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div class="phone-frame">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">MuCity Wellness</p>
+          <h1>沐城到府</h1>
+        </div>
+        <button class="ghost-button" id="cityButton" type="button">台北市</button>
+      </header>
+
+      <main class="app-main">
+        <section class="hero-card">
+          <div class="hero-copy">
+            <p class="hero-tag">60 分鐘內到府</p>
+            <h2>把 SPA 的鬆感，帶到你家裡。</h2>
+            <p class="hero-text">精選芳療師、推拿師與體態放鬆課程，線上下單、到府服務、全程可追蹤。</p>
+            <button class="primary-button" id="quickBookButton" type="button">立即預約</button>
+          </div>
+          <div class="hero-orb"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <h3>熱門服務</h3>
+            <button class="link-button" id="showServicesButton" type="button">看全部</button>
+          </div>
+          <div class="chip-row" id="serviceChips"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <h3>本日嚴選技師</h3>
+            <span class="hint-text">可預約 18 位</span>
+          </div>
+          <div class="card-list" id="therapistList"></div>
+        </section>
+
+        <section class="section">
+          <div class="promo-card">
+            <div>
+              <p class="eyebrow">新客禮</p>
+              <h3>首單折抵 NT$300</h3>
+              <p>今晚 23:59 前完成預約即可使用。</p>
+            </div>
+            <button class="secondary-button" id="claimPromoButton" type="button">立即使用</button>
+          </div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-nav="home" type="button">首頁</button>
+        <button class="nav-item" data-nav="services" type="button">服務</button>
+        <button class="nav-item" data-nav="orders" type="button">訂單</button>
+        <button class="nav-item" data-nav="profile" type="button">我的</button>
+      </nav>
+    </div>
+  </div>
+
+  <div class="sheet hidden" id="servicesSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="servicesSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>服務選擇</h3>
+        <button class="close-button" data-close="servicesSheet" type="button">關閉</button>
+      </div>
+      <div class="service-grid" id="servicesGrid"></div>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="detailSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="detailSheet"></div>
+    <section class="sheet-panel detail-panel">
+      <div class="sheet-handle"></div>
+      <div id="detailContent"></div>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="bookingSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="bookingSheet"></div>
+    <section class="sheet-panel booking-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>確認預約</h3>
+        <button class="close-button" data-close="bookingSheet" type="button">關閉</button>
+      </div>
+      <form id="bookingForm" class="booking-form">
+        <div class="summary-card" id="bookingSummary"></div>
+        <label>
+          地址
+          <input name="address" type="text" placeholder="例：信義路五段 7 號" required>
+        </label>
+        <label>
+          預約時間
+          <input name="time" type="datetime-local" required>
+        </label>
+        <label>
+          聯絡電話
+          <input name="phone" type="tel" placeholder="09xx-xxx-xxx" required>
+        </label>
+        <label>
+          備註
+          <textarea name="note" rows="3" placeholder="可填寫停車、門禁或力道需求"></textarea>
+        </label>
+        <button class="primary-button full-width" type="submit">送出訂單</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
