@@ -1,0 +1,10 @@
+{
+  "name": "沐城到府",
+  "short_name": "沐城到府",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8f1e8",
+  "theme_color": "#8e4928",
+  "description": "到府按摩預約 H5 版",
+  "icons": []
+}
