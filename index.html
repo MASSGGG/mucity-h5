@@ -1,12 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="沐城到府 H5 版，提供到府按摩、芳療舒壓與預約下單服務。">
+  <meta name="description" content="沐城到府 H5，提供到府按摩、芳療舒壓與預約下單服務。">
   <meta name="theme-color" content="#8e4928">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>沐城到府 | 預約按摩服務</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +15,14 @@
 <body>
   <div class="app-shell">
     <div class="phone-frame">
+      <div class="app-status" id="appStatus">
+        <div class="app-status-card">
+          <div class="loader-dot"></div>
+          <strong id="appStatusTitle">載入中</strong>
+          <p id="appStatusText">正在準備服務資料...</p>
+          <button class="secondary-button hidden" id="retryBootstrapButton" type="button">重新載入</button>
+        </div>
+      </div>
       <header class="topbar">
         <div>
           <p class="eyebrow">MuCity Wellness</p>
@@ -26,41 +32,109 @@
       </header>
 
       <main class="app-main">
-        <section class="hero-card">
-          <div class="hero-copy">
-            <p class="hero-tag">60 分鐘內到府</p>
-            <h2>把 SPA 的鬆感，帶到你家裡。</h2>
-            <p class="hero-text">精選芳療師、推拿師與體態放鬆課程，線上下單、到府服務、全程可追蹤。</p>
-            <button class="primary-button" id="quickBookButton" type="button">立即預約</button>
-          </div>
-          <div class="hero-orb"></div>
-        </section>
-
-        <section class="section">
-          <div class="section-header">
-            <h3>熱門服務</h3>
-            <button class="link-button" id="showServicesButton" type="button">看全部</button>
-          </div>
-          <div class="chip-row" id="serviceChips"></div>
-        </section>
-
-        <section class="section">
-          <div class="section-header">
-            <h3>本日嚴選技師</h3>
-            <span class="hint-text">可預約 18 位</span>
-          </div>
-          <div class="card-list" id="therapistList"></div>
-        </section>
-
-        <section class="section">
-          <div class="promo-card">
-            <div>
-              <p class="eyebrow">新客禮</p>
-              <h3>首單折抵 NT$300</h3>
-              <p>今晚 23:59 前完成預約即可使用。</p>
+        <section class="app-view active" data-view="home">
+          <section class="hero-card">
+            <div class="hero-copy">
+              <p class="hero-tag">60 分鐘內到府</p>
+              <h2>把 SPA 的鬆感，帶到你家裡。</h2>
+              <p class="hero-text">精選芳療師、推拿師與體態放鬆課程，線上下單、到府服務、全程可追蹤。</p>
+              <div class="action-row">
+                <button class="primary-button" id="quickBookButton" type="button">立即預約</button>
+                <button class="secondary-button" id="openCampaignSheetButton" type="button">活動專區</button>
+              </div>
             </div>
-            <button class="secondary-button" id="claimPromoButton" type="button">立即使用</button>
-          </div>
+            <div class="hero-orb"></div>
+          </section>
+
+          <section class="section">
+            <div class="banner-carousel" id="bannerCarousel"></div>
+            <div class="notice-strip" id="noticeStrip"></div>
+          </section>
+
+          <section class="section">
+            <div class="mini-grid" id="shortcutGrid"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-header">
+              <h3>限時活動</h3>
+              <button class="link-button" id="showCampaignsButton" type="button">看全部</button>
+            </div>
+            <div class="campaign-row" id="campaignList"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-header">
+              <h3>熱門服務</h3>
+              <button class="link-button" id="showServicesButton" type="button">看全部</button>
+            </div>
+            <div class="chip-row" id="serviceChips"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-header">
+              <h3>本日嚴選技師</h3>
+              <span class="hint-text">可預約 18 位</span>
+            </div>
+            <div class="card-list" id="therapistList"></div>
+          </section>
+        </section>
+
+        <section class="app-view" data-view="services">
+          <section class="section">
+            <p class="eyebrow">Service Catalog</p>
+            <h2>全部服務</h2>
+            <p class="hero-text compact">依照放鬆目標、時長與預算快速挑選方案，支援到府與到店雙模式。</p>
+          </section>
+          <section class="section">
+            <label class="search-field">
+              搜尋服務
+              <input id="serviceSearchInput" type="search" placeholder="例如：肩頸、睡眠、精油">
+            </label>
+          </section>
+          <section class="section">
+            <div class="filter-row" id="serviceFilters"></div>
+          </section>
+          <section class="section">
+            <div class="service-grid" id="servicesPageGrid"></div>
+          </section>
+        </section>
+
+        <section class="app-view" data-view="orders">
+          <section class="section">
+            <p class="eyebrow">Order Center</p>
+            <h2>我的訂單</h2>
+            <p class="hero-text compact">查看待付款、技師出發、服務中與已完成訂單，支援再次預約。</p>
+          </section>
+          <section class="section">
+            <div class="tab-row" id="orderTabs"></div>
+          </section>
+          <section class="section">
+            <div class="card-list" id="ordersList"></div>
+          </section>
+        </section>
+
+        <section class="app-view" data-view="profile">
+          <section class="section">
+            <div id="profileSummary"></div>
+          </section>
+
+          <section class="section">
+            <div class="stats-grid" id="profileStats"></div>
+          </section>
+
+          <section class="section">
+            <div class="menu-list" id="profileMenu"></div>
+          </section>
+
+          <section class="section">
+            <div class="affiliate-card">
+              <p class="eyebrow">Promotion</p>
+              <h3>邀請分銷中心</h3>
+              <p>分享專屬連結，新客首單完成後可獲得推廣獎勵。</p>
+              <button class="primary-button full-width" id="openAffiliateSheetButton" type="button">查看推廣中心</button>
+            </div>
+          </section>
         </section>
       </main>
 
@@ -73,38 +147,52 @@
     </div>
   </div>
 
-  <div class="sheet hidden" id="servicesSheet" aria-hidden="true">
-    <div class="sheet-backdrop" data-close="servicesSheet"></div>
+  <div class="sheet hidden" id="citySheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="citySheet"></div>
     <section class="sheet-panel">
       <div class="sheet-handle"></div>
       <div class="sheet-header">
-        <h3>服務選擇</h3>
-        <button class="close-button" data-close="servicesSheet" type="button">關閉</button>
+        <h3>城市切換</h3>
+        <button class="close-button" data-close="citySheet" type="button">關閉</button>
       </div>
-      <div class="service-grid" id="servicesGrid"></div>
+      <div class="city-grid" id="cityGrid"></div>
+      <div class="service-range-card">
+        <strong>服務範圍說明</strong>
+        <p id="serviceRangeText"></p>
+        <div class="city-meta-grid" id="cityMeta"></div>
+      </div>
     </section>
   </div>
 
   <div class="sheet hidden" id="detailSheet" aria-hidden="true">
     <div class="sheet-backdrop" data-close="detailSheet"></div>
-    <section class="sheet-panel detail-panel">
+    <section class="sheet-panel">
       <div class="sheet-handle"></div>
       <div id="detailContent"></div>
     </section>
   </div>
 
+  <div class="sheet hidden" id="therapistSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="therapistSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div id="therapistDetailContent"></div>
+    </section>
+  </div>
+
   <div class="sheet hidden" id="bookingSheet" aria-hidden="true">
     <div class="sheet-backdrop" data-close="bookingSheet"></div>
-    <section class="sheet-panel booking-panel">
+    <section class="sheet-panel">
       <div class="sheet-handle"></div>
       <div class="sheet-header">
         <h3>確認預約</h3>
         <button class="close-button" data-close="bookingSheet" type="button">關閉</button>
       </div>
+      <div class="booking-steps" id="bookingSteps"></div>
       <form id="bookingForm" class="booking-form">
         <div class="summary-card" id="bookingSummary"></div>
         <label>
-          地址
+          服務地址
           <input name="address" type="text" placeholder="例：信義路五段 7 號" required>
         </label>
         <label>
@@ -116,7 +204,7 @@
           <input name="phone" type="tel" placeholder="09xx-xxx-xxx" required>
         </label>
         <label>
-          備註
+          備註需求
           <textarea name="note" rows="3" placeholder="可填寫停車、門禁或力道需求"></textarea>
         </label>
         <button class="primary-button full-width" type="submit">送出訂單</button>
@@ -124,8 +212,145 @@
     </section>
   </div>
 
+  <div class="sheet hidden" id="orderDetailSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="orderDetailSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div id="orderDetailContent"></div>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="addressSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="addressSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>地址管理</h3>
+        <button class="close-button" data-close="addressSheet" type="button">關閉</button>
+      </div>
+      <div class="card-list" id="addressList"></div>
+      <form id="addressForm" class="booking-form section">
+        <label>
+          地址名稱
+          <input name="label" type="text" placeholder="例如：住家 / 公司" required>
+        </label>
+        <label>
+          詳細地址
+          <input name="value" type="text" placeholder="例：台北市信義區松仁路 100 號" required>
+        </label>
+        <button class="primary-button full-width" type="submit">新增地址</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="campaignSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="campaignSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>活動專區</h3>
+        <button class="close-button" data-close="campaignSheet" type="button">關閉</button>
+      </div>
+      <div class="card-list" id="campaignSheetList"></div>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="couponSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="couponSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>優惠券中心</h3>
+        <button class="close-button" data-close="couponSheet" type="button">關閉</button>
+      </div>
+      <div class="card-list" id="couponList"></div>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="affiliateSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="affiliateSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>推廣中心</h3>
+        <button class="close-button" data-close="affiliateSheet" type="button">關閉</button>
+      </div>
+      <div id="affiliateContent"></div>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="favoriteSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="favoriteSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>我的收藏</h3>
+        <button class="close-button" data-close="favoriteSheet" type="button">關閉</button>
+      </div>
+      <div class="card-list" id="favoriteList"></div>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="paymentSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="paymentSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>發票與付款</h3>
+        <button class="close-button" data-close="paymentSheet" type="button">關閉</button>
+      </div>
+      <div id="paymentContent"></div>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="partnerSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="partnerSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>商家合作申請</h3>
+        <button class="close-button" data-close="partnerSheet" type="button">關閉</button>
+      </div>
+      <form id="partnerForm" class="booking-form">
+        <label>
+          店家 / 品牌名稱
+          <input name="brand" type="text" placeholder="請填寫品牌或工作室名稱" required>
+        </label>
+        <label>
+          聯絡人
+          <input name="contact" type="text" placeholder="請填寫聯絡人姓名" required>
+        </label>
+        <label>
+          聯絡電話
+          <input name="phone" type="tel" placeholder="09xx-xxx-xxx" required>
+        </label>
+        <label>
+          合作需求
+          <textarea name="message" rows="4" placeholder="例如：技師合作、異業合作、企業方案"></textarea>
+        </label>
+        <button class="primary-button full-width" type="submit">送出申請</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="sheet hidden" id="supportSheet" aria-hidden="true">
+    <div class="sheet-backdrop" data-close="supportSheet"></div>
+    <section class="sheet-panel">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3>客服與 FAQ</h3>
+        <button class="close-button" data-close="supportSheet" type="button">關閉</button>
+      </div>
+      <div id="supportContent"></div>
+    </section>
+  </div>
+
   <div class="toast hidden" id="toast"></div>
 
+  <script src="config.js"></script>
+  <script src="data.js"></script>
+  <script src="api.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
+

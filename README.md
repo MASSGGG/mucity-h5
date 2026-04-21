@@ -1,34 +1,86 @@
-# 沐城到府 H5 MVP
+﻿# MuCity H5 MVP
 
-這是一個不依賴建置工具的前端原型，用來快速展示「到府按摩預約平台」的手機版 H5 MVP，可直接部署到靜態主機。
+MuCity 是一個到府按摩預約 H5 展示專案，目標是先做出高相似商業流程與可部署前端，再逐步串接真實 API、會員、金流與後台。
 
-## 目前內容
+## 目前已完成
 
-- 首頁 Hero 區塊
-- 熱門服務列表
-- 技師卡片列表
-- 服務詳情 Bottom Sheet
-- 預約表單 Bottom Sheet
-- 假資料互動與下單提示
+- 首頁商業化模組
+- Banner 輪播、公告區、快捷入口、活動專區
+- 城市切換與服務範圍說明
+- 服務頁
+- 分類篩選、搜尋、服務詳情、立即預約
+- 技師詳情頁
+- 收藏技師、評價篩選、查看更多評價、諮詢客服
+- 訂單中心
+- 訂單列表、訂單詳情、付款、取消、再次預約、自動狀態流轉
+- 我的頁
+- 常用地址、優惠券入口、我的收藏、發票與付款、客服入口、商家合作申請
+- 客服與 FAQ
+- 常見問題展開、客服入口、LINE 客服入口預留
+- 收藏與會員中心
+- 收藏技師清單、付款中心、合作申請表單
+- 全域狀態
+- 啟動 loading、載入失敗、重新載入 retry
+- 表單狀態
+- 下單、地址、合作申請提交中 disabled / loading 文案
 
-## 如何查看
+## 主要檔案
 
-直接用瀏覽器打開 [index.html](E:\Codex\index.html) 即可。
+- `E:\Codex\index.html`：頁面結構與所有 sheet
+- `E:\Codex\data.js`：前端展示用假資料來源
+- `E:\Codex\config.js`：切換 `mock` / `real` API 模式與 API Base URL
+- `E:\Codex\api.js`：前端 API service layer 與 bootstrap 入口
+- `E:\Codex\api-schema.md`：前後端串接用的 API 欄位定義
+- `E:\Codex\app.js`：前端狀態、假資料、互動流程
+- `E:\Codex\styles.css`：視覺樣式與響應式排版
+- `E:\Codex\vercel.json`：Vercel 靜態部署設定
+- `E:\Codex\netlify.toml`：Netlify 靜態部署設定
 
-## 可直接部署
+## 目前資料模式
 
-- `Vercel`：已提供 [vercel.json](E:\Codex\vercel.json)
-- `Netlify`：已提供 [netlify.toml](E:\Codex\netlify.toml)
-- 一般靜態空間：上傳 `index.html`、`styles.css`、`app.js`、`404.html`、`site.webmanifest`
+目前使用前端假資料與 localStorage：
 
-## 部署重點
+- 訂單：`mucity-orders`
+- 地址：`mucity-addresses`
+- 收藏：`mucity-favorites`
+- 優惠券：`mucity-coupon`
+- 城市：`mucity-city`
 
-- 這版是純前端靜態頁，不需要 Node.js 也能上線
-- 若後續接 API，可把介面保留，改由 `app.js` 呼叫後端
-- `404.html` 與 rewrite 設定是為了讓 H5 路由或重新整理時不會直接 404
+## API 切換
 
-## 下一步建議
+- 預設模式在 `E:\Codex\config.js`
+- `mode: "mock"`：走本地假資料
+- `mode: "real"`：改走 `${apiBaseUrl}/...` API 端點
+- 目前已預留的讀取端點包含：
+- `/services`
+- `/therapists`
+- `/banners`
+- `/notices`
+- `/cities`
+- `/campaigns`
+- `/shortcuts`
+- `/coupons`
+- `/faqs`
+- `/profile-menus`
+- `/affiliate`
+- `/orders/defaults`
+- `/addresses/defaults`
+- 目前已接上的寫入端點包含：
+- `POST /orders`
+- `POST /orders/:id/pay`
+- `POST /orders/:id/cancel`
+- `GET /addresses`
+- `POST /addresses`
+- `DELETE /addresses/:id`
+- `PUT /addresses/:id`
+- `GET /coupons`
+- `GET /profile`
+- `GET /cities`
+- `GET /campaigns`
 
-1. 接上登入、定位、支付、訂單與技師排班 API。
-2. 增加服務城市切換、地址管理、優惠券與訂單查詢。
-3. 補使用者端、技師端、管理後台三種角色。
+## 建議下一步
+
+1. 拆出 API 結構，讓前端從假資料改成可串接後端。
+2. 補登入、會員、優惠券核銷、真實付款流程。
+3. 建立後台資料表與管理端，處理服務、技師、訂單與城市配置。
+4. 補 README 截圖、操作流程與部署說明，作為正式交付文件。
